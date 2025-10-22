@@ -1,12 +1,12 @@
 #!/bin/sh
 
-wall=$(find ~/pix/wall -type f -name "*.jpg" -o -name "*.png" | shuf -n 1)
+wall=$(find ~/dwm-dots/pix/wall/ -type f -name "*.jpg" -o -name "*.png" | shuf -n 1)
 
 # add this as background wallpaper
-xwallpaper --zoom $wall
+xwallpaper --zoom "$wall"
 
 # colour scheme
 wal -c
-wal -i $wall
+wal -i "$wall"
 
-xodotool key super+F5
+xdotool key super+F5
