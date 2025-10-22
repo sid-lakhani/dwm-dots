@@ -1,0 +1,16 @@
+SAVEDIR="/home/sidlakhani/pix/ss"
+FILENAME="$(date +'%Y-%m-%d-%H:%M:%S')_select.png"
+FILEPATH="$SAVEDIR/$FILENAME"
+
+mkdir -p "$SAVEDIR"
+scrot -s -q 100 "$FILEPATH"
+
+if command -v xclip &> /dev/null
+then
+    xclip -selection clipboard -target image/png -i "$FILEPATH"
+fi
+
+if command -v notify-send &> /dev/null
+then
+    notify-send "Select SS Captured" "Copied to cp." -i "$FILEPATH" -t 3000
+fi

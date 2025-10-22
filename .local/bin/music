@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Controls media players (including browser tabs) via MPRIS using playerctl.
+# This script targets the LAST ACTIVE media player and outputs the status 
+# for dwmblocks.
+
+# --- Helper function to get status/metadata ---
+get_status_bar_info() {
+    # Check if a player is running and get its status
+    STATUS=$(playerctl status 2>/dev/null)
+    
+    if [ "$STATUS" = "Playing" ]; then
+        # Output: 🎶 Artist - Title
+        playerctl metadata --format '🎵 {{ artist }} - {{ title }}' 2>/dev/null
+    elif [ "$STATUS" = "Paused" ]; then
+        # Output: ⏸️ Artist - Title
+        playerctl metadata --format '⏸️ {{ artist }} - {{ title }}' 2>/dev/null
+    else
+        # Output "Nothing Playing" if status is Stopped or no player is found
+        echo "No Media Playing"
+    fi
+}
+
+# --- Action based on dwmblocks button click (optional: change SIGNAL to match your dwmblocks config) ---
+case $BLOCK_BUTTON in
+    # 1: Left Click - Open Apple Music URL
+    1) setsid -f firefox 'https://music.apple.com/' ;;
+    
+    # 2: Middle Click - Toggle Play/Pause
+    2) playerctl play-pause ;;
+    
+    # 3: Right Click - Notification
+    3) 
+        INFO=$(get_status_bar_info)
+        notify-send "🎵 Media Module" "\- Shows current track.
+- Status: $INFO
+- Middle click: Play/Pause.
+- Scroll: Change track."
+        ;;
+    
+    # 4: Scroll Up - Previous Track
+    4) playerctl previous ;;
+    
+    # 5: Scroll Down - Next Track
+    5) playerctl next ;;
+    
+    # 6: Edit Script
+    6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+    
+    # Default: Output the status for the bar
+    *) get_status_bar_info ;;
+esac

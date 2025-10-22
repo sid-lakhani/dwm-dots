@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Prints the current volume or MUTE status for the status bar.
+
+# Use a consistent sink name
+SINK="@DEFAULT_SINK@" 
+# SINK="@DEFAULT_AUDIO_SINK@" # Use this if @DEFAULT_SINK@ fails
+
+case $BLOCK_BUTTON in
+    1) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+10 "${STATUSBAR:-dwmblocks}" ;;
+    2) wpctl set-mute "$SINK" toggle ;;
+    # Increased volume increment for better usability
+    4) wpctl set-volume "$SINK" 5%+ ;; 
+    5) wpctl set-volume "$SINK" 5%- ;; 
+    3) notify-send "📢 Volume module" "\- Shows volume 🔊, 🔇 if muted.
+- Middle click to mute.
+- Scroll to change." ;;
+    6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+# Get volume output (e.g., "Volume: 0.400000 [MUTED]" or "Volume: 0.850000")
+vol_status="$(wpctl get-volume "$SINK")"
+
+# --- OUTPUT LOGIC ---
+
+# 1. Check for MUTE status first
+if [ "$vol_status" != "${vol_status%\[MUTED\]}" ]; then
+    echo "MUTED" # Output the mute symbol and exit immediately
+    exit
+fi
+
+# 2. If not muted, extract the volume value
+# Extract the volume number (e.g., 0.850000)
+vol_value="${vol_status#Volume: }"
+
+# Convert the decimal volume value to a whole number percentage
+# Uses 'bc' for floating point math and rounds to the nearest integer.
+vol="$(echo "$vol_value * 100" | bc | awk '{print int($1+0.5)}')"
+
+# 3. Output the volume percentage
+echo "VOL: $vol%"
+# You can replace "VOL:" with a speaker icon like "" if you have Nerd Fonts enabled
+# echo " $vol%"
