@@ -1,13 +1,42 @@
 #!/bin/sh
+# Displays the time on the status bar and handles interactive clicks.
 
-clock=$(date '+%I')
+# --- Logic for Mouse Clicks (Interactivity) ---
 
+# The $BLOCK_BUTTON environment variable is set by dwmblocks when the
+# status bar is clicked.
 case $BLOCK_BUTTON in
-	1) notify-send "This Month" "$(cal | sed "s/\<$(date +'%e'|tr -d ' ')\>/<b><span color='red'>&<\/span><\/b>/")" && notify-send "Appointments" "$(calcurse -d3)" ;;
-	2) setsid -f "$TERMINAL" -e calcurse ;;
-	3) notify-send "📅 Time/date module" "\- Left click to show upcoming appointments for the next three days via \`calcurse -d3\` and show the month via \`cal\`
-- Middle click opens calcurse if installed" ;;
-	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+    # Button 1 (Left Click): Show calendar and appointments
+    1) 
+        notify-send "This Month" "$(cal | sed "s/\<$(date +'%e'|tr -d ' ')\>/<b><span color='red'>&<\/span><\/b>/")" && 
+        notify-send "Appointments" "$(calcurse -d3)" 
+        ;;
+
+    # Button 2 (Middle Click): Opens calcurse terminal app
+    2) 
+        setsid -f "$TERMINAL" -e calcurse 
+        ;;
+
+    # Button 3 (Right Click): Show the detailed date/time as a temporary tooltip (5 seconds)
+    3) 
+        FULL_DATE=$(date '+%A, %B %d, %Y')
+        FULL_TIME=$(date '+%I:%M:%S %p %Z')
+        # Use -t 5000 to automatically hide the notification after 5 seconds
+        notify-send -t 5000 -a "DWM Clock" "Detailed Date and Time 📅" "$FULL_DATE\n$FULL_TIME"
+        ;;
+    
+    # Button 5 (Scroll Down): Show help/module info
+    5) 
+        notify-send "📅 Time/Date Module" "\- Left Click: Calendar & Appointments\n- Middle Click: Open calcurse\n- Right Click: Detailed Date/Time Tooltip" 
+        ;;
+
+    # Button 6 (Shift+Click): Opens the script file in editor
+    6) 
+        setsid -f "$TERMINAL" -e "$EDITOR" "$0" 
+        ;;
 esac
 
-date "+%Y %b %d (%a) %I:%M %p"
+# --- Bar Output ---
+
+# The last line of the script determines what is displayed on the bar.
+date "+%I:%M %p"
