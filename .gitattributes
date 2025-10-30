@@ -1,1 +1,2 @@
-.config/vesktop/* linguist-vendored
+.config/vesktop/** linguist-vendored
+.config/vesktop/ linguist-vendored
