@@ -1,4 +1,5 @@
 # 💻 my DWM Dotfiles
+![DWM Look](pix/preview.png)
 
 A minimal and highly customized configuration for **Arch Linux** using the **Dynamic Window Manager (DWM)** and the Suckless toolset.
 
