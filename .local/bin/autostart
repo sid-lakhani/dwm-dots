@@ -10,5 +10,4 @@ playerctl --follow status 2>/dev/null | while read -r STATUS; do
     fi
 done &
 /home/sidlakhani/.local/bin/newlook &
-xcompmgr &
-
+picom &

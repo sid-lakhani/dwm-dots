@@ -50,4 +50,5 @@ if [ -d "$xinitdir"/xinitrc.d ] ; then
 fi
 
 autostart &
+mons &
 exec dwm
