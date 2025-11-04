@@ -85,9 +85,9 @@
 
 | Keybinding | Action | Command |
 |-------------|---------|----------|
-| **XF86AudioLowerVolume** | Volume Down | `env BLOCK_BUTTON=5 ~/.local/bin/volume` |
-| **XF86AudioRaiseVolume** | Volume Up | `env BLOCK_BUTTON=4 ~/.local/bin/volume` |
-| **XF86AudioMute** | Mute / Unmute | `env BLOCK_BUTTON=2 ~/.local/bin/volume` |
+| **Mod + [** | Volume Down | `env BLOCK_BUTTON=5 ~/.local/bin/volume` |
+| **Mod + ]** | Volume Up | `env BLOCK_BUTTON=4 ~/.local/bin/volume` |
+| **Mod + Shift + m** | Mute / Unmute | `env BLOCK_BUTTON=2 ~/.local/bin/volume` |
 
 ---
 

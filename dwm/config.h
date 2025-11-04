@@ -101,9 +101,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,         XK_s,      spawn,      SHCMD("~/.local/bin/select_ss") },   
     // SS End
     // Volume Keys 
-    { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("env BLOCK_BUTTON=5 ~/.local/bin/volume") },
-    { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("env BLOCK_BUTTON=4 ~/.local/bin/volume") },
-    { 0, XF86XK_AudioMute,        spawn, SHCMD("env BLOCK_BUTTON=2 ~/.local/bin/volume") },
+    { MODKEY, XK_bracketleft, spawn, SHCMD("env BLOCK_BUTTON=5 ~/.local/bin/volume") },
+    { MODKEY, XK_bracketright, spawn, SHCMD("env BLOCK_BUTTON=4 ~/.local/bin/volume") },
+    { MODKEY|ShiftMask, XK_m,        spawn, SHCMD("env BLOCK_BUTTON=2 ~/.local/bin/volume") },
     // Volume End
     // Music Keys (using playerctl for browser/MPRIS media)
     { 0, XF86XK_AudioPlay,        spawn, SHCMD("playerctl play-pause") },
