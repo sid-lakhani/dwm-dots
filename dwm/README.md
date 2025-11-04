@@ -76,7 +76,7 @@
 
 | Keybinding | Action | Command |
 |-------------|---------|----------|
-| **Mod + Print** | Full Screenshot | `~/.local/bin/ss` |
+| **Mod + p** | Full Screenshot | `~/.local/bin/ss` |
 | **Mod + Shift + s** | Select Area Screenshot | `~/.local/bin/select_ss` |
 
 ---

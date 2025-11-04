@@ -97,7 +97,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,     XK_equal,  setgaps,    {.i =  0 } },
     { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
     // SS Keys
-    { MODKEY,           XK_Print,  spawn,      SHCMD("~/.local/bin/ss") },
+    { MODKEY,           XK_p,  spawn,      SHCMD("~/.local/bin/ss") },
     { MODKEY|ShiftMask,         XK_s,      spawn,      SHCMD("~/.local/bin/select_ss") },   
     // SS End
     // Volume Keys 
