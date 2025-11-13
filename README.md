@@ -19,7 +19,7 @@ A minimal and highly customized configuration for **Arch Linux** using the **Dyn
 This repository uses **symbolic links (symlinks)** to manage files.
 
 1.  **Clone** the repository.
-2.  **Symlink** the contents to their required locations (e.g., `ln -s ~/dwm-dots/.xinitrc ~/.xinitrc`).
+2.  **Copy** the contents to their required locations (e.g., `cp ~/dwm-dots/dwm/config.h ~/.local/src/dwm`).
 3.  **Compile** and install the Suckless tools (`dwm`, `st`, `dmenu`, `dwmblocks`) from their source directories (`~/.local/src/`)
 ## 🛠️ Build and Install
 
