@@ -96,6 +96,7 @@ static Key keys[] = {
     { MODKEY,           XK_equal,  setgaps,    {.i = +1 } },
     { MODKEY|ShiftMask,     XK_equal,  setgaps,    {.i =  0 } },
     { MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
+	{ MODKEY|ShiftMask, XK_l, spawn, SHCMD("lockscreen") },
     // SS Keys
     { MODKEY,           XK_p,  spawn,      SHCMD("~/.local/bin/ss") },
     { MODKEY|ShiftMask,         XK_s,      spawn,      SHCMD("~/.local/bin/select_ss") },   
