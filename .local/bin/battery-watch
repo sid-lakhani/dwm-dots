@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# Battery warnings only at these levels
+levels=(20 10 5)
+
+# Track which levels you've already been warned about
+STATE="/tmp/battery_warned"
+
+# Init state file if missing
+[ ! -f "$STATE" ] && echo "" > "$STATE"
+
+while true; do
+    # Get battery percentage (works on most laptops)
+    percent=$(cat /sys/class/power_supply/BAT0/capacity)
+    status=$(cat /sys/class/power_supply/BAT0/status)
+
+    # If charging, reset state so warnings work again later
+    if [ "$status" = "Charging" ]; then
+        echo "" > "$STATE"
+        sleep 30
+        continue
+    fi
+
+    for lvl in "${levels[@]}"; do
+        if [ "$percent" -le "$lvl" ]; then
+            # Check if already warned at this level
+            if ! grep -q "$lvl" "$STATE"; then
+                # Send notification
+                notify-send -u critical \
+                    "Battery Low: $percent%" \
+                    "Plug in your charger."
+
+                # Add level to warned list
+                echo "$lvl" >> "$STATE"
+            fi
+        fi
+    done
+
+    sleep 30
+done
+

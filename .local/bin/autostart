@@ -9,5 +9,6 @@ playerctl --follow status 2>/dev/null | while read -r STATUS; do
         pkill -RTMIN+11 dwmblocks
     fi
 done &
+~/.local/bin/battery-watch &
 /home/sidlakhani/.local/bin/newlook &
 picom --config ~/.config/picom/picom.conf &
