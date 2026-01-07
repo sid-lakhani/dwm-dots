@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+STATE_FILE="$HOME/.eye_care_state"
+TEMP="4000"
+BRIGHT="0.85"
+DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $1}')
+
+use_gammastep() {
+  command -v gammastep >/dev/null 2>&1
+}
+
+enable_gammastep() {
+  gammastep -m randr -O "$TEMP"
+}
+
+disable_gammastep() {
+  gammastep -m randr -x 2>/dev/null || true
+  killall -q gammastep || true
+}
+
+enable_xrandr() {
+  xrandr --output "$DISPLAY_NAME" --brightness "$BRIGHT" --gamma 1.0:0.8:0.6
+}
+
+disable_xrandr() {
+  xrandr --output "$DISPLAY_NAME" --brightness 1.0 --gamma 1.0:1.0:1.0
+}
+
+enable_mode() {
+  if use_gammastep && enable_gammastep; then
+    notify-send "Eye-Care Mode" "Warm filter active @ ${TEMP}K"
+  else
+    enable_xrandr
+    notify-send "Eye-Care Mode" "Fallback active via xrandr"
+  fi
+  echo "on" > "$STATE_FILE"
+}
+
+disable_mode() {
+  if use_gammastep; then
+    disable_gammastep
+  fi
+  disable_xrandr
+  notify-send "Eye-Care Disabled" "Display back to default"
+  echo "off" > "$STATE_FILE"
+}
+
+case "$1" in
+  on) enable_mode ;;
+  off) disable_mode ;;
+  *)
+    if [[ -f "$STATE_FILE" && $(cat "$STATE_FILE") == "on" ]]; then
+      disable_mode
+    else
+      enable_mode
+    fi
+    ;;
+esac
+
